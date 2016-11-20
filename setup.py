@@ -1,23 +1,8 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-import platform
 from setuptools import setup, find_packages
 from setuptools.command.test import test as TestCommand
-
-
-version = "0.0.0"
-name = 'paratest-nunit'
-description = "Paratest plugin to run nunit"
-module = 'paratest-nunit.nunit'
-url = 'https://github.com/paratestproject/paratest-nunit'
-author = 'Daniel Aguado Araujo'
-author_email = ''
-datapath = (
-    os.path.join(os.getenv('ProgramData'), 'paratest')
-    if platform.system().lower() == 'windows'
-    else '/usr/share/paratest'
-)
 
 
 def read_description():
@@ -47,33 +32,11 @@ class PyTest(TestCommand):
         errno = pytest.main(self.pytest_args or ['--cov-report=term-missing'])
         sys.exit(errno)
 
-with open('nunit.paratest', 'w+') as fd:
-    content = """
-[Core]
-Name = {name}
-Module = {module}
-
-[Documentation]
-Author = {author}
-Version = {version}
-Website = {url}
-Description = {description}
-    """.format(
-        version=version,
-        description=description,
-        name=name,
-        module=module,
-        author=author,
-        url=url,
-    ).strip()
-
-    fd.write(content)
-
 
 setup(
-    name=name,
-    version=version,
-    description=description,
+    name='paratest-nunit',
+    version='0.0.1',
+    description="Paratest plugin to run nunit",
     long_description=read_description(),
     cmdclass={'test': PyTest},
     classifiers=[
@@ -90,8 +53,8 @@ setup(
         'Libraries :: Application Frameworks',
     ],
     keywords='parallel test plugin',
-    author=author,
-    author_email=author_email,
+    author='Miguel Ángel García',
+    author_email='miguelangel.garcia@gmail.com',
     url=url,
     license='MIT',
     packages=find_packages('src'),
@@ -103,6 +66,9 @@ setup(
         (datapath, ['nunit.paratest']),
     ],
     install_requires=[
-        'yapsy == 1.11.223',
     ],
+    entry_points={
+        'paratest': 'find = paratest_nunit.nunit:find'
+    }
+
 )
