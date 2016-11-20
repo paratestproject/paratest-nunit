@@ -55,16 +55,9 @@ setup(
     keywords='parallel test plugin',
     author='Miguel Ángel García',
     author_email='miguelangel.garcia@gmail.com',
-    url=url,
+    url='https://github.com/paratestproject/paratest-nunit',
     license='MIT',
-    packages=find_packages('src'),
-    include_package_data=True,
-    package_dir={
-        '': 'src',
-    },
-    data_files=[
-        (datapath, ['nunit.paratest']),
-    ],
+    packages=find_packages('.'),
     install_requires=[
     ],
     entry_points={
